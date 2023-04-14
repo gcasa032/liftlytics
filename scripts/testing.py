@@ -19,17 +19,7 @@ def print_schema():
 
     print(aws_schema)
 
-csv_path = ""
-out_path = ""
+repo_dir = ""
+out_dir = ""
 
-df2 = pandas.read_parquet(out_path)
-
-df_age = df2[df2['Age'] > 80]
-bw_constraint = df2[df2['BodyweightKg'] > 230][['Name', 'BodyweightKg', 'Date', 'Federation', 'Equipment', 'Division', 'TotalKg']].sort_values(by="BodyweightKg", ascending=False)
-total_constraint = df2[['Name', 'BodyweightKg', 'Date', 'Federation', 'Equipment', 'Division', 'TotalKg']].sort_values(by="TotalKg", ascending=False)
-
-
-df_dupes = clean_openpwl.dupe_constraint(df2)
-
-
-print(df_dupes.head(30))
+ingest_openpwl.download_openpwl_data(out_dir, repo_dir)

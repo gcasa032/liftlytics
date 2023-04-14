@@ -1,0 +1,2 @@
+-- Cross field validation for weight
+    -- should add a few filters. Such as very high weight, large increase between classes
