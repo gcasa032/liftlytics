@@ -26,6 +26,7 @@ def download_openpwl_data(output_loc, repo_loc):
     
     if is_git_repo(repo_loc) and get_git_repo_name(repo_loc) == 'opl-data':
         try:
+            subprocess.run(["git", "config", "--global", "pull.rebase", "true"], check=True)
             result = subprocess.run(["git", "-C", repo_loc, "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             if result.returncode == 0:
                 print("Git pull successful")
@@ -36,7 +37,16 @@ def download_openpwl_data(output_loc, repo_loc):
         except Exception as e:
             print("Error executing git pull:", e)
     else: 
-        subprocess.run(["git", "clone", repo_url, repo_loc], check=True)
+        try:      
+            result = subprocess.run(["git", "clone", repo_url, repo_loc], check=True)
+            if result.returncode == 0:
+                print("Git clone successful")
+                print(f"Output: {result.stdout}")
+            else:
+                print("Git clone failed")
+                print(f"Error: {result.stderr}")
+        except Exception as e:
+            print("Error executing git clone:", e)     
 
     subprocess.run(["tests/check", "--compile"], cwd=repo_loc, check=True)
 
@@ -71,7 +81,7 @@ def get_git_repo_name(path):
 
 def transform_bulk_csv(inpath, outpath):
     """
-        A function that transforms the OpenPowerlifting bulk CSV 
+        A function that transforms the OpenPowerlifting human bulk CSV 
         into a partitioned parquet file
     """
 
