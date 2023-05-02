@@ -28,20 +28,11 @@ with DAG(
     ) as dag:
 
 
-    # download the data
-    # insert into 
-
-    source_cargo_env = BashOperator(
-    task_id="source_cargo_env",
-    bash_command="source /root/.cargo/env",
-    dag=dag,
-    )
-
     @task()
     def download_data():
 
         ingest_openpwl.download_openpwl_data(out_path, repo_path)
 
-    source_cargo_env >> download_data()
+    download_data()
 
     
