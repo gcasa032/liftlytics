@@ -19,7 +19,7 @@ def print_schema():
 
     print(aws_schema)
 
-repo_dir = "./data/opl-repo"
+repo_dir = "../data/opl-repo"
 out_dir = "../data/download-out"
 
 ingest_openpwl.download_openpwl_data(out_dir, repo_dir)

@@ -3,25 +3,17 @@ import pandas
 import subprocess
 import os
 
-# This script will ingest data from the OpenPowerlifting repo.
-
-# TODO
-    # Choose between getting data from repo or just getting the CSV that they provide
-        # getting data from repo will allow for lifter-data as well
-    # implementation
-        # Just clone the repo and regularly pull to update the contents
-            # Once we pull how do we update the transformations
-
-
-# the downloaded CSV has the revision number at the end
-
 def download_openpwl_data(output_loc, repo_loc):
+    """
+    Download and build the most recent OpenPowerlifting data from a git repository.
 
-    # Download and build most recent OpenPowerlifting data
-        # Parameters
-            # git repo location. could be s3 location, local, or none
-            # output location
+    Parameters:
+    - output_loc: The location where the downloaded data will be stored.
+    - repo_loc: The location of the git repository.
 
+    Returns:
+    None
+    """
     repo_url = "https://gitlab.com/openpowerlifting/opl-data.git"
     
     if is_git_repo(repo_loc) and get_git_repo_name(repo_loc) == 'opl-data':
@@ -53,6 +45,15 @@ def download_openpwl_data(output_loc, repo_loc):
     shutil.copytree(f"{repo_loc}/build", output_loc, dirs_exist_ok=True)
 
 def is_git_repo(path):
+    """
+    Check if a given path is a valid git repository.
+
+    Parameters:
+    - path: The path to check.
+
+    Returns:
+    - True if the path is a git repository, False otherwise.
+    """
     if not os.path.exists(path):
         return False
 
@@ -64,6 +65,15 @@ def is_git_repo(path):
         return False
     
 def get_git_repo_name(path):
+    """
+    Get the name of the git repository from a given path.
+
+    Parameters:
+    - path: The path to the git repository.
+
+    Returns:
+    - The name of the git repository, or None if the path is not a valid git repository.
+    """
     if not os.path.exists(path):
         return None
 
@@ -81,15 +91,16 @@ def get_git_repo_name(path):
 
 def transform_bulk_csv(inpath, outpath):
     """
-        A function that transforms the OpenPowerlifting human bulk CSV 
-        into a partitioned parquet file
+    Transform the OpenPowerlifting human bulk CSV into a partitioned parquet file.
+
+    Parameters:
+    - inpath: The path to the input CSV file.
+    - outpath: The path to save the output parquet file.
+
+    Returns:
+    None
     """
-
-    # TODO Check if any values are being rounded.
-
     df = pandas.read_csv(inpath)
     df.to_parquet(outpath)
 
     return None
-
-

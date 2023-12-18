@@ -1,14 +1,18 @@
-# Airflow Docker Setup
+# Liftlytics
+
+<!-- TODO: Add general info about the project-->
+
+## Airflow Docker Setup
 
 This repository contains a Docker Compose setup for running Airflow locally.
 
-## Prerequisites
+### Prerequisites
 
 Before you begin, ensure you have met the following requirements:
 
 * You have installed [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/).
 
-## Running Airflow Locally
+### Running Airflow Locally
 
 To run Airflow locally, follow these steps:
 
