@@ -1,0 +1,15 @@
+service: openpl-raw-ingest
+
+frameworkVersion: '3'
+
+
+provider:
+  name: aws
+  runtime: python3.9
+
+functions:
+  cronHandler:
+    handler: handler.run
+    events:
+      # Invoke Lambda at hour 1 and 13 every day
+      - schedule: cron(0 1,13 * * * *)

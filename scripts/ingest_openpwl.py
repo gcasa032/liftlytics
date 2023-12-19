@@ -2,6 +2,10 @@ import shutil
 import pandas
 import subprocess
 import os
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 def download_openpwl_data(output_loc, repo_loc):
     """
@@ -21,24 +25,24 @@ def download_openpwl_data(output_loc, repo_loc):
             subprocess.run(["git", "config", "--global", "pull.rebase", "true"], check=True)
             result = subprocess.run(["git", "-C", repo_loc, "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             if result.returncode == 0:
-                print("Git pull successful")
-                print(f"Output: {result.stdout}")
+                logger.info("Git pull successful")
+                logger.info(f"Output: {result.stdout}")
             else:
-                print("Git pull failed")
-                print(f"Error: {result.stderr}")
+                logger.info("Git pull failed")
+                logger.info(f"Error: {result.stderr}")
         except Exception as e:
-            print("Error executing git pull:", e)
+            logger.info("Error executing git pull:", e)
     else: 
         try:      
             result = subprocess.run(["git", "clone", repo_url, repo_loc], check=True)
             if result.returncode == 0:
-                print("Git clone successful")
-                print(f"Output: {result.stdout}")
+                logger.info("Git clone successful")
+                logger.info(f"Output: {result.stdout}")
             else:
-                print("Git clone failed")
-                print(f"Error: {result.stderr}")
+                logger.info("Git clone failed")
+                logger.info(f"Error: {result.stderr}")
         except Exception as e:
-            print("Error executing git clone:", e)     
+            logger.info("Error executing git clone:", e)     
 
     subprocess.run(["tests/check", "--compile"], cwd=repo_loc, check=True)
 
